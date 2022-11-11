@@ -1,0 +1,52 @@
+
+.loginmain {
+  display: flex;
+  flex-direction: column;
+  padding-left: 30vw;
+  padding-right: 30vw;
+  background-color: grey;
+  min-height: 100vh;
+  justify-content: center;
+  justify-items: center;
+  text-align: center;
+}
+
+.login {
+  padding-left: 25%;
+  padding-right: 25%;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+}
+.logo img {
+  width: 40%;
+}
+
+
+.listusers {
+  display: flex;
+  flex-direction: column;
+  padding-left: 5vw;
+  padding-right: 30vw;
+  padding-top: 5vw;
+  background-color: grey;
+  min-height: 100vh;
+  justify-content: left;
+  justify-items: center;
+  
+}
+
+.users {
+  padding-left: 25%;
+  padding-right: 25%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 2em;
+}
+.users p {
+  flex: auto;
+  border: .01vh solid black;
+}

@@ -1,0 +1,89 @@
+{% extends "home.html" %}
+
+{% block title %}Login{% endblock %}
+{% block head %}
+    {{ super() }}
+
+
+
+{% endblock %}
+{% block content %}
+
+
+
+<main class="loginmain">
+<div class="logo">
+    <img src="{{ url_for('static', filename='flask.png') }}" alt="">
+    <img src="{{ url_for('static', filename='python.png') }}" alt="">
+    <br><br><br>
+</div>
+<div class="login">
+    {% if "username" not in session and "useremail" not in session %}
+        <form action="#" method="post">
+            <label for="floatingInput">Name</label>
+            <input type="text" class="form-control" id="floatingInput" placeholder="Name" name="nm">
+            <br>
+            <label for="floatingInput">Email address</label>
+            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="em">
+            <br><br>
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
+        </form>
+    {% endif %}
+
+    <p>{{name}}</p>
+    <p>{{email}}</p>
+    {% if "username" in session and "useremail" in session %}
+        <p><a href="/logout"><button>Logout</button></a></p>
+    {% endif %}
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+        
+    {% endif %}
+    {% endwith %}
+
+</div>
+
+
+
+</main>
+
+<!-- <form>
+    <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+
+    <div class="form-floating">
+      <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+      <label for="floatingInput">Email address</label>
+    </div>
+    <div class="form-floating">
+      <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+      <label for="floatingPassword">Password</label>
+    </div>
+
+    <div class="checkbox mb-3">
+      <label>
+        <input type="checkbox" value="remember-me"> Remember me
+      </label>
+    </div>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+    <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
+  </form> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
