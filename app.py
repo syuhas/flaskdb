@@ -6,9 +6,9 @@ from sqlalchemy import (VARCHAR, Boolean, Column, DateTime, ForeignKey,
                         Integer, String, create_engine, text)
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-from website import create_app
+from website import create_application
 
-app = create_app()
+application = create_application()
 
 
 DATABASE_URL = 'mysql+pymysql://syuhas:funstuff@mydb.cypnvtxsedui.us-east-1.rds.amazonaws.com:3306'
@@ -48,12 +48,12 @@ with engine.connect() as connection:
 
 """ Base.metadata.create_all(engine) """
 
-@ app.route('/')
+@ application.route('/')
 def home():
     return render_template('home.html')
 
 
-@ app.route('/login', methods=["POST", "GET"])
+@ application.route('/login', methods=["POST", "GET"])
 def login():
     if request.method == "POST":
         session["username"] = request.form["nm"]
@@ -63,7 +63,7 @@ def login():
         return render_template('login.html')
 
 
-@ app.route('/user')
+@ application.route('/user')
 def user():
     if "username" in session and "useremail" in session:
         user = session["username"]
@@ -81,13 +81,13 @@ def user():
         return render_template('login.html', name = user, email = em)
 
 
-@app.route('/listusers')
+@application.route('/listusers')
 def listusers():
     usrs = local_session.query(User).all()
     return render_template('listusers.html', usrs = usrs)
 
 
-@ app.route('/logout')
+@ application.route('/logout')
 def logout():
     if "username" in session and "useremail" in session:
         flash("Logged out successfully", "messages")
@@ -97,4 +97,4 @@ def logout():
 
 
 if __name__ == "__main__":
-    app.run(debug = True)
+    application.run(debug = True)
