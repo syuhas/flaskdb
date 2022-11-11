@@ -48,7 +48,7 @@ with engine.connect() as connection:
 
 """ Base.metadata.create_all(engine) """
 
-@ application.route('/')
+@ application.route('/') #home template
 def home():
     return render_template('home.html')
 
@@ -63,7 +63,7 @@ def login():
         return render_template('login.html')
 
 
-@ application.route('/user')
+@ application.route('/user') #user management
 def user():
     if "username" in session and "useremail" in session:
         user = session["username"]
@@ -81,13 +81,13 @@ def user():
         return render_template('login.html', name = user, email = em)
 
 
-@application.route('/listusers')
+@application.route('/listusers') # lists users route
 def listusers():
     usrs = local_session.query(User).all()
     return render_template('listusers.html', usrs = usrs)
 
 
-@ application.route('/logout')
+@ application.route('/logout') #logout route
 def logout():
     if "username" in session and "useremail" in session:
         flash("Logged out successfully", "messages")
