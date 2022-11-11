@@ -24,6 +24,7 @@ local_session = Session(bind=engine)
 
 def create_user(nm, em):
     new_user = User(username=nm, email=em)
+    local_session.flush()
     local_session.add(new_user)
     local_session.commit()
     return
@@ -68,6 +69,7 @@ def user():
     if "username" in session and "useremail" in session:
         user = session["username"]
         em = session["useremail"]
+        local_session.commit()
         usrs = local_session.query(User).all()
         for usr in usrs:
             if user == usr.username or em == usr.email:
