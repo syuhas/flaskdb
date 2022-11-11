@@ -69,7 +69,9 @@ def user():
     if "username" in session and "useremail" in session:
         user = session["username"]
         em = session["useremail"]
-        local_session.commit()
+        with engine.connect() as connection:
+            connection.execute(f"CREATE DATABASE IF NOT EXISTS {User.__tablename__}")
+            connection.execute(f"USE {User.__tablename__}")
         usrs = local_session.query(User).all()
         for usr in usrs:
             if user == usr.username or em == usr.email:
@@ -85,6 +87,9 @@ def user():
 
 @application.route('/listusers') # lists users route
 def listusers():
+    with engine.connect() as connection:
+        connection.execute(f"CREATE DATABASE IF NOT EXISTS {User.__tablename__}")
+        connection.execute(f"USE {User.__tablename__}")
     usrs = local_session.query(User).all()
     return render_template('listusers.html', usrs = usrs)
 
