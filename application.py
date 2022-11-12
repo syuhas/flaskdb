@@ -26,17 +26,32 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     username = Column(String(80), nullable=False)
     email = Column(String(120), nullable=False)
+    pw = Column(String(80), nullable=False)
     date_created = Column(DateTime, default=datetime.utcnow, nullable=False)
 
     def __repr__(self):
         return f"User username={self.user} email={self.email}"
+
+with engine.connect() as connection:
+    connection.execute(text('CREATE DATABASE IF NOT EXISTS users'))
+    connection.execute(text('USE users'))
+
+
+""" Base.metadata.create_all(engine) """
+
+
+
+
+
+
+
+
 
 
 def connect():
     Session = sessionmaker()
     local_session = Session(bind=engine)
     with engine.connect() as connection:
-        connection.execute(f"CREATE DATABASE IF NOT EXISTS {User.__tablename__}")
         connection.execute(f"USE {User.__tablename__}")
     return local_session
 
@@ -68,9 +83,9 @@ def create_user(nm, em):
 
 
 
-""" Base.metadata.create_all(engine) """
 
-""" @ application.route('/') #home template
+
+@ application.route('/') #home template
 def home():
     return render_template('home.html')
 
@@ -82,15 +97,15 @@ def login():
         session["useremail"] = request.form["em"]
         return redirect(url_for('user'))
     else:
-        return render_template('login.html') """
+        return render_template('login.html')
 
 
-""" @ application.route('/user') #user management
+@ application.route('/user') #user management
 def user():
     if "username" in session and "useremail" in session:
         user = session["username"]
         em = session["useremail"]
-        
+        local_session = connect()
         usrs = local_session.query(User).all()
         for usr in usrs:
             if user == usr.username or em == usr.email:
@@ -101,23 +116,23 @@ def user():
 
         create_user(user, em)
         flash("Welcome " + user)
-        return render_template('login.html', name = user, email = em) """
+        return render_template('login.html', name = user, email = em)
 
 
-@application.route('/') # lists users route
+@application.route('/listusers') # lists users route
 def listusers():
     local_session = connect()
     usrs = local_session.query(User).all()
     return render_template('listusers.html', usrs = usrs)
 
 
-""" @ application.route('/logout') #logout route
+@ application.route('/logout') #logout route
 def logout():
     if "username" in session and "useremail" in session:
         flash("Logged out successfully", "messages")
     session.pop('username', None)
     session.pop('useremail', None)
-    return redirect(url_for('login')) """
+    return redirect(url_for('login'))
 
 
 if __name__ == "__main__":
