@@ -17,17 +17,7 @@ Base = declarative_base()
 
 engine = create_engine(DATABASE_URL, echo=True)
 
-Session = sessionmaker()
 
-local_session = Session(bind=engine)
-
-
-def create_user(nm, em):
-    new_user = User(username=nm, email=em)
-    local_session.flush()
-    local_session.add(new_user)
-    local_session.commit()
-    return
 
 
 class User(Base):
@@ -42,14 +32,45 @@ class User(Base):
         return f"User username={self.user} email={self.email}"
 
 
-with engine.connect() as connection:
-    connection.execute(f"CREATE DATABASE IF NOT EXISTS {User.__tablename__}")
-    connection.execute(f"USE {User.__tablename__}")
+def connect():
+    Session = sessionmaker()
+    local_session = Session(bind=engine)
+    with engine.connect() as connection:
+        connection.execute(f"CREATE DATABASE IF NOT EXISTS {User.__tablename__}")
+        connection.execute(f"USE {User.__tablename__}")
+    return local_session
+
+
+
+def create_user(nm, em):
+    local_session = connect()
+    new_user = User(username=nm, email=em)
+    local_session.add(new_user)
+    local_session.commit()
+    return
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 """ Base.metadata.create_all(engine) """
 
-@ application.route('/') #home template
+""" @ application.route('/') #home template
 def home():
     return render_template('home.html')
 
@@ -61,17 +82,15 @@ def login():
         session["useremail"] = request.form["em"]
         return redirect(url_for('user'))
     else:
-        return render_template('login.html')
+        return render_template('login.html') """
 
 
-@ application.route('/user') #user management
+""" @ application.route('/user') #user management
 def user():
     if "username" in session and "useremail" in session:
         user = session["username"]
         em = session["useremail"]
-        with engine.connect() as connection:
-            connection.execute(f"CREATE DATABASE IF NOT EXISTS {User.__tablename__}")
-            connection.execute(f"USE {User.__tablename__}")
+        
         usrs = local_session.query(User).all()
         for usr in usrs:
             if user == usr.username or em == usr.email:
@@ -82,25 +101,23 @@ def user():
 
         create_user(user, em)
         flash("Welcome " + user)
-        return render_template('login.html', name = user, email = em)
+        return render_template('login.html', name = user, email = em) """
 
 
-@application.route('/listusers') # lists users route
+@application.route('/') # lists users route
 def listusers():
-    with engine.connect() as connection:
-        connection.execute(f"CREATE DATABASE IF NOT EXISTS {User.__tablename__}")
-        connection.execute(f"USE {User.__tablename__}")
+    local_session = connect()
     usrs = local_session.query(User).all()
     return render_template('listusers.html', usrs = usrs)
 
 
-@ application.route('/logout') #logout route
+""" @ application.route('/logout') #logout route
 def logout():
     if "username" in session and "useremail" in session:
         flash("Logged out successfully", "messages")
     session.pop('username', None)
     session.pop('useremail', None)
-    return redirect(url_for('login'))
+    return redirect(url_for('login')) """
 
 
 if __name__ == "__main__":
