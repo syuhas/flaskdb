@@ -13,34 +13,31 @@
 
 <main class="loginmain">
 <div class="logo">
-    <img src="{{ url_for('static', filename='flask.png') }}" alt="">
-    <img src="{{ url_for('static', filename='python.png') }}" alt="">
+    <img src="{{ url_for('static', filename='login.png') }}" alt="">
     <br><br><br>
 </div>
 <div class="login">
     {% if "username" not in session and "useremail" not in session %}
         <form action="#" method="post">
-            <label for="floatingInput">Name</label>
+            <label for="floatingInput" class="formlabel-nm">Username</label>
             <input type="text" class="form-control" id="floatingInput" placeholder="Name" name="nm">
             <br>
-            <label for="floatingInput">Email address</label>
+            <label for="floatingInput" class="formlabel-em">Email address</label>
             <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="em">
             <br><br>
             <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
         </form>
     {% endif %}
 
-    <p>{{name}}</p>
-    <p>{{email}}</p>
     {% if "username" in session and "useremail" in session %}
-        <p><a href="/logout"><button>Logout</button></a></p>
+        <p class="logout"><a href="/logout"><button>Logout</button></a></p>
     {% endif %}
 
     {% with messages = get_flashed_messages() %}
     {% if messages %}
     
         {% for message in messages %}
-            <p>{{ message }}</p>
+            <p class="welcome">{{ message }}</p>
         {% endfor %}
         
     {% endif %}
