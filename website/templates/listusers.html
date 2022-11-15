@@ -11,10 +11,10 @@
 <main class="users-wrapper">
     <div class="users-parent">
         <table>
-            <tr><td class="id">ID</td><td class="name">NAME</td><td class="email">EMAIL</td></tr>
+            <tr><td class="id">ID</td><td class="name">NAME</td><td class="email">HASHED PASSWORD</td></tr>
             {% for user in usrs %}
             <tr>
-                <td class="id">id = {{user.id}}</td><td class="name">name = {{user.username}}</td><td class="email">email = {{user.email}}</td>
+                <td class="id">id = {{user.id}}</td><td class="name">name = {{user.username}}</td><td class="email">hashed_password = {{user.pw}}</td>
             </tr>
             {% endfor %}
         </table>

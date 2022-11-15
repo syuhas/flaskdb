@@ -1,21 +1,25 @@
+
+
 .main {
   background-color: #343a40;
+  padding: 5em;
+  padding-top: 1.75em;
 }
 
 .loginmain {
   display: flex;
   flex-direction: column;
-  padding-left: 30vw;
-  padding-right: 30vw;
+  padding-left: 25vw;
+  padding-right: 25vw;
+  padding-top: 2em;
   min-height: 100vh;
-  justify-content: center;
-  justify-items: center;
   text-align: center;
 }
+.loginmain h1 {color: white;}
 
 .login {
-  padding-left: 25%;
-  padding-right: 25%;
+  padding-left: 15%;
+  padding-right: 15%;
 }
 
 .logo {
@@ -23,7 +27,7 @@
   justify-content: center;
 }
 .logo img {
-  width: 40%;
+  height: 10vw;
 }
 .formlabel-nm, .formlabel-em {
   padding-bottom: .5em;
@@ -36,39 +40,27 @@
 
 
 .users-wrapper {
-  padding-left: 5vw;
-  padding-right: 5vw;
   padding-top: 5vw;
   min-height: 100vh;
-  justify-content: left;
-  justify-items: center;
 }
 
 .users-parent {
-  grid-template-columns: auto;
-  display: grid;
-  padding-left: 25vw;
-  padding-right: 25vw;
+  width: auto; 
+}
+.users-parent table {
+  margin: auto;
 }
 
-.id {
-  grid-area: id;
-}
-.name {
-  grid-area: name;
-}
-.email {
-  grid-area: email;
-}
 
 .users-parent td {
   border: .01vh solid black;
   padding: .5em;
   color: #c28422;
   font-size: clamp(12px, 1.2vw, 20px);
+  width: auto;
 }
 
-.logout, .welcome {color: white; padding-top: 1em;}
+.logout, .msg {color: white; padding-top: 1em;}
 
 
 

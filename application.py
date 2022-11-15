@@ -1,5 +1,6 @@
 from website import create_application
 
+
 application = create_application()
 
 

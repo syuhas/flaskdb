@@ -8,9 +8,9 @@ def create_application():
     app.secret_key = '04241985'
 
     from .views import views
-    
     app.register_blueprint(views, url_prefix='/')
-    
+    from .hash import hash
+    app.register_blueprint(hash)
 
 
     return app

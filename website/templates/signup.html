@@ -1,6 +1,6 @@
 {% extends "home.html" %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Signup{% endblock %}
 {% block head %}
     {{ super() }}
 
@@ -16,15 +16,26 @@
     <img src="{{ url_for('static', filename='login.png') }}" alt="">
     <br><br><br>
 </div>
-<h1>Login</h1>
+<h1>Sign Up</h1>
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+    
+        {% for message in messages %}
+            <p class="msg">{{ message }}</p>
+        {% endfor %}
+        
+    {% endif %}
+{% endwith %}
 <div class="login">
-    {% if "username" not in session and "useremail" not in session %}
+    {% if "username" not in session %}
         <form action="#" method="post">
             <label for="floatingInput" class="formlabel-nm">Username</label>
             <input type="text" class="form-control" id="floatingInput" placeholder="Name" name="nm">
             <br>
-            <label for="floatingInput" class="formlabel-em">Password</label>
-            <input type="password" class="form-control" id="floatingInput" placeholder="Password" name="pw">
+            <label for="floatingInput" class="formlabel-em">Enter Password</label>
+            <input type="password" class="form-control" id="floatingInput" placeholder="Password" name="pw1">
+            <label for="floatingInput" class="formlabel-em">Re-Enter Password</label>
+            <input type="password" class="form-control" id="floatingInput" placeholder="Password" name="pw2">
             <br><br>
             <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
         </form>
@@ -33,16 +44,6 @@
     {% if "username" in session and "useremail" in session %}
         <p class="logout"><a href="/logout"><button>Logout</button></a></p>
     {% endif %}
-
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    
-        {% for message in messages %}
-            <p class="msg">{{ message }}</p>
-        {% endfor %}
-        
-    {% endif %}
-    {% endwith %}
 
 </div>
 
