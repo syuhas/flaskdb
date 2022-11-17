@@ -120,10 +120,6 @@ def user():
             session.pop('password', None)
             return redirect(url_for('views.login'))
         hashed_check = check_pw(usr.pw, password)
-        print(usr.username)
-        print(password)
-        print(usr.pw)
-        print(hashed_check)
         if not hashed_check:
             flash("Password is incorrect")
             session.pop('username', None)
@@ -135,6 +131,9 @@ def user():
     else:
         return redirect(url_for('views.login'))
 
+@views.route('userprofile')
+def userprofile():
+    return render_template('userprofile.html')
 
 
 @views.route('/listusers')                              # list users template

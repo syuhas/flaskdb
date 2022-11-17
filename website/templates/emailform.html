@@ -1,0 +1,39 @@
+{% extends "home.html" %} 
+
+{% block title %}Profile{% endblock %} 
+{% block head %}
+    {{ super() }}
+    
+{% endblock %}
+{% block content %}
+
+
+<main class="loginmain">
+    <div class="logo">
+        <img src="{{ url_for('static', filename='login.png') }}" alt="">
+        <br><br><br>
+    </div>
+    <h1>Auto Email Tester</h1>
+    <div class="login">
+        
+        <form action="#" method="post">
+            <label for="floatingInput" class="formlabel-em">Email</label>
+            <input type="email" class="form-control" id="floatingInput" placeholder="Email@address.com" name="em">
+            <br><br>
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
+        </form>
+    </div>
+</main>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+    
+        {% for message in messages %}
+            <p class="msg">{{ message }}</p>
+        {% endfor %}
+        
+    {% endif %}
+    {% endwith %}
+
+
+{% endblock  %}

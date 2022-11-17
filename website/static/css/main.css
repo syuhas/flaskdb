@@ -2,8 +2,21 @@
 
 .main {
   background-color: #343a40;
-  padding: 5em;
+  padding: 5vw;
   padding-top: 1.75em;
+  
+}
+.navbar {
+  background-color: #3B5367;
+  box-shadow: 2px 0px 10px black;
+  background-image: url(../techy2.png);
+  background-size: 90vw;
+}
+.navbar ul{
+  margin: auto;
+}
+.nav-item a {
+  color: white;
 }
 
 .loginmain {
@@ -27,7 +40,7 @@
   justify-content: center;
 }
 .logo img {
-  height: 10vw;
+  height: 13vw;
 }
 .formlabel-nm, .formlabel-em {
   padding-bottom: .5em;
@@ -56,7 +69,7 @@
   border: .01vh solid black;
   padding: .5em;
   color: #c28422;
-  font-size: clamp(12px, 1.2vw, 20px);
+  font-size: clamp(9px, 1.2vw, 20px);
   width: auto;
 }
 
@@ -64,18 +77,54 @@
 
 
 
-@media (max-width: 70em) {
+.container {
+  color: white;
+}
+.my-5 img {
+  width: 10%;
+}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 60em) {
+  
   .listusers {
     padding: 0;
   }
   .login {
-    padding-top: 5em;
+    padding-top: 5vw;
+  }
+  .logo img {
+    height: 20vw;
+  }
+  .loginmain {
+    padding-left: 15vw;
+    padding-right: 15vw;
+  }
+  .users-wrapper {
+    padding: 0;
+  }
+
+}
+
+@media screen and (max-width: 35em) {
+  .logo img {
+    height: 30vw;
   }
   .loginmain {
     padding-left: 5vw;
     padding-right: 5vw;
-    padding: 0;
   }
-
 }

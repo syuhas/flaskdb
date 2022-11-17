@@ -18,7 +18,7 @@
 </div>
 <h1>Login</h1>
 <div class="login">
-    {% if "username" not in session and "useremail" not in session %}
+    {% if "username" not in session %}
         <form action="#" method="post">
             <label for="floatingInput" class="formlabel-nm">Username</label>
             <input type="text" class="form-control" id="floatingInput" placeholder="Name" name="nm">
@@ -30,7 +30,7 @@
         </form>
     {% endif %}
 
-    {% if "username" in session and "useremail" in session %}
+    {% if "username" in session %}
         <p class="logout"><a href="/logout"><button>Logout</button></a></p>
     {% endif %}
 

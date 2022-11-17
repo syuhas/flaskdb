@@ -1,5 +1,6 @@
 from flask import Flask
-
+from flask_mail import Mail
+from .extensions import mail
 
 
 def create_application():
@@ -11,6 +12,15 @@ def create_application():
     app.register_blueprint(views, url_prefix='/')
     from .hash import hash
     app.register_blueprint(hash)
+    from .mailer import mailer
+    app.register_blueprint(mailer, url_prefix='/')
 
+    
+    app.config['MAIL_SERVER'] = "smtp-relay.sendinblue.com"
+    app.config['MAIL_PORT'] = 587
+    app.config['MAIL_USE_SSL'] = False
+    app.config['MAIL_USERNAME'] = "syuhas22@gmail.com"
+    app.config['MAIL_PASSWORD'] = "3P0R8draHwGg9qtA"
+    mail.init_app(app)
 
     return app
