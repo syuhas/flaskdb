@@ -16,11 +16,11 @@ def create_application():
     app.register_blueprint(mailer, url_prefix='/')
 
     
-    app.config['MAIL_SERVER'] = "smtp-relay.sendinblue.com"
+    app.config['MAIL_SERVER'] = "smtp.gmail.com"
     app.config['MAIL_PORT'] = 587
-    app.config['MAIL_USE_SSL'] = False
+    app.config['MAIL_USE_TLS'] = True
     app.config['MAIL_USERNAME'] = "syuhas22@gmail.com"
-    app.config['MAIL_PASSWORD'] = "3P0R8draHwGg9qtA"
+    app.config['MAIL_PASSWORD'] = "vwjnsnxqotqqiuss"
     mail.init_app(app)
 
     return app

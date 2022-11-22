@@ -1,0 +1,85 @@
+{% extends "base.html" %} 
+
+{% block title %}Profile{% endblock %} 
+{% block head %}
+    {{ super() }}
+    
+{% endblock %}
+{% block content %}
+
+
+<main class="textcolor">
+
+  <div class="conatiner">
+
+
+
+
+    <div class="row justify-content-center">
+      <div class="col-2">
+        <div class="h-25">
+            <img src="{{ url_for('static', filename='login.png') }}" class="img-fluid" alt="">  
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-5">
+        <h1 class="text-center">Reset Password for <span style="color: greenyellow;">{{email}}</span></h1>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-4">
+          {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            
+              {% for message in messages %}
+                <p class="text-center"><span style="color: greenyellow;">{{ message }}</span></p>
+              {% endfor %}
+              
+            {% endif %}
+          {% endwith %}
+        </div>
+    </div>
+    <hr>
+    {% if "username" not in session %}
+    <form action="#" method="post">
+
+      <div class="row justify-content-center">
+        <div class="col-3">
+          <label for="floatingInput" class="formlabel-nm">Enter New Password</label>
+          <input type="password" class="form-control" id="floatingInput" placeholder="Password" name="pw1">
+          <label for="floatingInput" class="formlabel-em">Confirm New Password</label>
+          <input type="password" class="form-control" id="floatingInput" placeholder="Confirm Password" name="pw2">
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-3 mt-5">
+          <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
+        </div>
+      </div>
+
+    </form>
+    {% endif %}
+
+
+
+
+  </div>
+
+    
+    
+</main>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+    
+        {% for message in messages %}
+            <p class="msg">{{ message }}</p>
+        {% endfor %}
+        
+    {% endif %}
+    {% endwith %}
+
+
+{% endblock  %}

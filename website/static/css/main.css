@@ -3,8 +3,11 @@
 .main {
   background-color: #343a40;
   padding: 5vw;
-  padding-top: 1.75em;
-  
+  padding-top: 1em;
+  min-height: 100vh;
+}
+.main-home {
+  color: white;
 }
 .navbar {
   background-color: #3B5367;
@@ -19,37 +22,24 @@
   color: white;
 }
 
-.loginmain {
+.loginmain {                                                                                                                                
   display: flex;
   flex-direction: column;
   padding-left: 25vw;
   padding-right: 25vw;
-  padding-top: 2em;
+  padding-top: 1em;
   min-height: 100vh;
   text-align: center;
 }
-.loginmain h1 {color: white;}
+.loginmain h1, h5 {color: white;}
 
 .login {
   padding-left: 15%;
   padding-right: 15%;
 }
 
-.logo {
-  display: flex;
-  justify-content: center;
-}
-.logo img {
-  height: 13vw;
-}
-.formlabel-nm, .formlabel-em {
-  padding-bottom: .5em;
-  padding-top: 1em;
-  color: white;
-}
-.formlabel-em {
-  padding-top: 0;
-}
+.textcolor {color: white;}
+
 
 
 .users-wrapper {
@@ -73,16 +63,14 @@
   width: auto;
 }
 
-.logout, .msg {color: white; padding-top: 1em;}
+.logout, .msg {color: white; padding-top: 1em; margin: auto;}
 
 
 
 .container {
   color: white;
 }
-.my-5 img {
-  width: 10%;
-}
+
 
 
 

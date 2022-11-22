@@ -1,4 +1,4 @@
-{% extends "home.html" %} 
+{% extends "base.html" %} 
 
 {% block title %}Home{% endblock %} 
 {% block head %}
@@ -11,10 +11,10 @@
 <main class="users-wrapper">
     <div class="users-parent">
         <table>
-            <tr><td class="id">ID</td><td class="name">NAME</td><td class="email">HASHED PASSWORD</td></tr>
+            <tr><td class="id">ID</td><td class="name">NAME</td><td class="email">HASHED PASSWORD</td><td>First Name</td><td>Last Name</td><td>Email</td></tr>
             {% for user in usrs %}
             <tr>
-                <td class="id">id = {{user.id}}</td><td class="name">name = {{user.username}}</td><td class="email">hashed_password = {{user.pw}}</td>
+                <td class="id">{{user.id}}</td><td class="name">{{user.username}}</td><td class="email">{{user.pw}}</td><td class="firstname">{{user.firstname}}</td><td class="lastname">{{user.lastname}}</td><td class="email">{{user.email}}</td>
             </tr>
             {% endfor %}
         </table>

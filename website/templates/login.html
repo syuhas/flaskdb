@@ -1,4 +1,4 @@
-{% extends "home.html" %}
+{% extends "base.html" %}
 
 {% block title %}Login{% endblock %}
 {% block head %}
@@ -11,77 +11,69 @@
 
 
 
-<main class="loginmain">
-<div class="logo">
-    <img src="{{ url_for('static', filename='login.png') }}" alt="">
-    <br><br><br>
-</div>
-<h1>Login</h1>
-<div class="login">
+<main class="textcolor">
+
+  <div class="conatiner">
+
+
+
+
+    <div class="row justify-content-center">
+      <div class="col-2">
+        <div class="h-25">
+            <img src="{{ url_for('static', filename='login.png') }}" class="img-fluid" alt="">  
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-2">
+        <h1 class="text-center">Login</h1>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-4">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+          
+            {% for message in messages %}
+              <p class="text-center"><span style="color: greenyellow;">{{ message }}</span></p>
+            {% endfor %}
+            
+          {% endif %}
+        {% endwith %}
+      </div>
+    </div>
+    <hr>
     {% if "username" not in session %}
-        <form action="#" method="post">
-            <label for="floatingInput" class="formlabel-nm">Username</label>
-            <input type="text" class="form-control" id="floatingInput" placeholder="Name" name="nm">
-            <br>
-            <label for="floatingInput" class="formlabel-em">Password</label>
-            <input type="password" class="form-control" id="floatingInput" placeholder="Password" name="pw">
-            <br><br>
-            <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
-        </form>
+    <form action="#" method="post">
+
+      <div class="row justify-content-center">
+        <div class="col-3">
+          <label for="floatingInput" class="formlabel-nm">Username</label>
+          <input type="text" class="form-control" id="floatingInput" placeholder="Name" name="nm">
+          <label for="floatingInput" class="formlabel-em">Password</label>
+          <input type="password" class="form-control" id="floatingInput" placeholder="Password" name="pw">
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-3 mt-5">
+          <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
+           <a href="/forgotpw">Forgot Password?</a>
+        </div>
+      </div>
+
+    </form>
     {% endif %}
 
-    {% if "username" in session %}
-        <p class="logout"><a href="/logout"><button>Logout</button></a></p>
-    {% endif %}
 
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
+
+
+  </div>
+
     
-        {% for message in messages %}
-            <p class="msg">{{ message }}</p>
-        {% endfor %}
-        
-    {% endif %}
-    {% endwith %}
-
-</div>
-
-
-
+    
 </main>
-
-<!-- <form>
-    <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
-    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-
-    <div class="form-floating">
-      <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-      <label for="floatingInput">Email address</label>
-    </div>
-    <div class="form-floating">
-      <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-      <label for="floatingPassword">Password</label>
-    </div>
-
-    <div class="checkbox mb-3">
-      <label>
-        <input type="checkbox" value="remember-me"> Remember me
-      </label>
-    </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-    <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
-  </form> -->
-
-
-
-
-
-
-
-
-
-
-
 
 
 {% endblock %}
