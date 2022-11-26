@@ -10,26 +10,22 @@
 
 <main class="textcolor">
 
-    <div class="conatiner">
+    <div class="container">
   
   
   
   
       <div class="row justify-content-center">
-        <div class="col-2">
+        <div class="col-md-6">
           <div class="h-25">
-              <img src="{{ url_for('static', filename='login.png') }}" class="img-fluid" alt="">  
+              <img src="{{ url_for('static', filename='login.png') }}" class="form-img" alt="">  
           </div>
         </div>
       </div>
       <div class="row justify-content-center">
-        <div class="col-4">
+        <div class="col-md-4">
           <h1 class="text-center">Attention</h1>
           <h5 class="text-center">You have not confirmed your account.</h5>
-        </div>
-      </div>
-      <div class="row justify-content-center">
-        <div class="col-4">
         </div>
       </div>
       <hr>
@@ -37,7 +33,7 @@
       <form action="#" method="post">
   
         <div class="row justify-content-center">
-          <div class="col-3">
+          <div class="col-md-5">
             <p class="text-center">Please check your inbox and spam folder.</p>
             <p class="text-center">Didn't get the email? <a href="/send_confirm_email">Resend Email</a></p>
           </div>

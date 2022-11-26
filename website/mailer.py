@@ -34,8 +34,6 @@ def send_confirm_email():
     link = url_for('mailer.confirm_email', token=token, _external=True)
     msg.html = render_template('confirm_email.html', link=link)
     mail.send(msg)
-    flash('Please check your email and follow the link to confirm your new account.')
-
     return redirect(url_for('views.login'))
     
 
@@ -52,6 +50,7 @@ def confirm_email(token):
     
     local_session = connect()
     usr = local_session.query(User).filter_by(email=email).first()
+    print(usr.confirmed)
     usr.confirmed = True
     local_session.commit()
     flash('Email confirmed. Please login.')

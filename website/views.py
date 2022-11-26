@@ -27,13 +27,17 @@ class User(Base):
     email = Column(String(120))
     firstname = Column(String(80))
     lastname = Column(String(80))
+    phone = Column(String(80))
+    linkedin = Column(String(80))
     confirmed = Column(Boolean, default=False)
     date_created = Column(DateTime, default=datetime.utcnow, nullable=False)
 
-
-with engine.connect() as connection:                                   # initial connection to the databse using the table
-    connection.execute(text(f'CREATE DATABASE IF NOT EXISTS {User.__tablename__}'))
-    connection.execute(text(f'USE {User.__tablename__}'))
+try:
+    with engine.connect() as connection:                                   # initial connection to the databse using the table
+        connection.execute(text(f'CREATE DATABASE IF NOT EXISTS {User.__tablename__}'))
+        connection.execute(text(f'USE {User.__tablename__}'))
+except:
+    flash('Database connection failed. Please refresh and try again.')
 
 
 
@@ -45,7 +49,7 @@ def connect():                                          # reconnects and loads f
         with engine.connect() as connection:
             connection.execute(f"USE {User.__tablename__}")
     except:
-        flash('Database connection error, please try again later')
+        flash('Database connection error. Please refresh and try again.')
         return redirect(url_for('views.login'))
     return local_session
 
@@ -62,7 +66,6 @@ def create_user(nm, pw, email):                                # creates user; r
 
 @ views.route('/')                                      # home template
 def home():
-    
     return render_template('home.html')
 
 
@@ -100,6 +103,7 @@ def signup():
                     flash("Email Already Exists")
                     return redirect(url_for('views.signup'))
             create_user(username, password, email)
+            flash("Thank you for creating your account. A confirmation link has been sent to your email address. Follow the link to confirm your account and log in.")
             return redirect(url_for('mailer.send_confirm_email'))
     else:
         return render_template('signup.html')
@@ -166,62 +170,105 @@ def user():
 @ views.route('/userprofile', methods=["POST", "GET"])
 def userprofile():
     if request.method == "POST":
-        local_session = connect()
-        usr = local_session.query(User).filter_by(username=session['username']).first()
 
-        if request.form['em'] != '':
-            usr.email = request.form['em']
-            flash("Email Updated")
-            
-        if request.form['fn'] != '':
-            usr.firstname = request.form['fn']
-            flash("First Name Updated")
-            
-        if request.form['ln'] != '':
-            usr.lastname = request.form['ln']
-            print(usr.lastname)
-            flash("Last Name Updated")
+        if request.form.get('update') =='update':        
+            local_session = connect()
+            usr = local_session.query(User).filter_by(username=session['username']).first()            
+                
+            if request.form['fn'] != '':
+                usr.firstname = request.form['fn']
+                flash("First Name Updated")
+                
+            if request.form['ln'] != '':
+                usr.lastname = request.form['ln']
+                flash("Last Name Updated")
 
-        if request.form["old-pw"] != '' or request.form["new-pw1"] != '' or request.form["new-pw2"] != '':
-            if request.form["old-pw"] == '':
-                flash("Please enter your current password.")
-                return redirect(url_for('views.userprofile'))
-            if request.form["new-pw1"] == '' or request.form["new-pw1"] == '':
-                flash("Please enter and confirm new password.")
-                return redirect(url_for('views.userprofile'))
-            else:
-                old_pw = request.form["old-pw"]
-                if request.form["new-pw1"] == request.form["new-pw2"] and check_pw(usr.pw, old_pw):
-                    print(check_pw(usr.pw, old_pw))
-                    new_pw = request.form['new-pw1']
-                    usr.pw = hash_pw(new_pw)
-                    flash("Password Successfully Changed.")
-                elif not check_pw(usr.pw, old_pw):
-                    flash("Incorrect Password")
+            if request.form['ph'] != '':
+                usr.phone = request.form['ph']
+                flash("Phone Number Updated")
+
+            if request.form['lk'] != '':
+                usr.linkedin = request.form['lk']
+                flash("LinkedIn Profile Updated")
+
+            if request.form["old-pw"] != '' or request.form["new-pw1"] != '' or request.form["new-pw2"] != '':
+                if request.form["old-pw"] == '':
+                    flash("Please enter your current password.")
+                    return redirect(url_for('views.userprofile'))
+                if request.form["new-pw1"] == '' or request.form["new-pw1"] == '':
+                    flash("Please enter and confirm new password.")
                     return redirect(url_for('views.userprofile'))
                 else:
-                    flash("Passwords do not match. Please try again.")
+                    old_pw = request.form["old-pw"]
+                    if request.form["new-pw1"] == request.form["new-pw2"] and check_pw(usr.pw, old_pw):
+                        print(check_pw(usr.pw, old_pw))
+                        new_pw = request.form['new-pw1']
+                        usr.pw = hash_pw(new_pw)
+                        flash("Password Successfully Changed.")
+                    elif not check_pw(usr.pw, old_pw):
+                        flash("Incorrect Password")
+                        return redirect(url_for('views.userprofile'))
+                    else:
+                        flash("Passwords do not match. Please try again.")
+                        return redirect(url_for('views.userprofile'))
+
+            if request.form['em1'] != '' or request.form['em2'] != '':
+                if request.form["em1"] == '':
+                    flash("Please enter your new email.")
                     return redirect(url_for('views.userprofile'))
-        
-        
-        local_session.commit()
-        return redirect(url_for('views.userprofile'))
+                if request.form["em2"] == '':
+                    flash("Please confirm your new email.")
+                    return redirect(url_for('views.userprofile'))
+                else:
+                    if request.form["em1"] == request.form["em2"]:
+                        session['email'] = request.form['em1']
+                        local_session = connect()
+                        usrs = local_session.query(User).all()
+                        for usr in usrs:
+                            if session['email'] == usr.email:
+                                flash("Email Already Exists")
+                                session.pop('email', None)
+                                return redirect(url_for('views.userprofile'))
+                            else:
+                                usr = local_session.query(User).filter_by(username=session['username']).first()
+                                usr.email = session['email']
+                                usr.confirmed = False
+                                session.pop('username', None)
+                                local_session.commit()
+                                flash("Email Updated. A confirmation link has been sent to your email address. Follow the link to confirm your account and log back in.")
+                                return redirect(url_for('mailer.send_confirm_email'))
+
+                    else:
+                        flash("Emails do not match. Please try again.")
+                        return redirect(url_for('views.userprofile'))
+            
+            local_session.commit()
+            return redirect(url_for('views.userprofile'))
+
+        elif request.form.get('delete') =='delete':
+            local_session = connect()
+            usr = local_session.query(User).filter_by(username=session['username']).first()
+            local_session.delete(usr)
+            session.pop('username', None)
+            local_session.commit()
+            flash("Account Deleted. Sorry to see you go. Feel free to sign up again!")
+            return redirect(url_for('views.home'))
+        else:
+            flash("There was an error. Please try again.")
+            return redirect(url_for('views.userprofile'))
     else:
-        local_session = connect()
-        usr = local_session.query(User).filter_by(username=session['username']).first()
-        return render_template('userprofile.html', username=usr.username,  email=usr.email, firstname=usr.firstname, lastname=usr.lastname)
+        if 'username' in session:
+            local_session = connect()
+            usr = local_session.query(User).filter_by(username=session['username']).first()
+            return render_template('userprofile.html', username=usr.username,  email=usr.email, firstname=usr.firstname, lastname=usr.lastname, phone=usr.phone, linkedin=usr.linkedin)
+        else:
+            return redirect(url_for('views.login'))
 
 
 
 @ views.route('/unconfirmed')
 def unconfirmed():
     return render_template('unconfirmed.html')
-
-
-
-
-
-
 
 
 

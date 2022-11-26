@@ -32,6 +32,20 @@
             <p style="opacity: 50%;">~Steve</p>
         </div>
     </div>
+    <hr>
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+          {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            
+              {% for message in messages %}
+                <p class="text-center"><span style="color: greenyellow;">{{ message }}</span></p>
+              {% endfor %}
+              
+            {% endif %}
+          {% endwith %}
+        </div>
+      </div>
 </main>
 
 

@@ -8,17 +8,41 @@
 {% block content %}
     
 
-<main class="users-wrapper">
-    <div class="users-parent">
-        <table>
-            <tr><td class="id">ID</td><td class="name">NAME</td><td class="email">HASHED PASSWORD</td><td>First Name</td><td>Last Name</td><td>Email</td></tr>
+<main class="container">
+
+        <table class="table table-dark table-hover table-bordered border-primary">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Email</th>
+                </tr>
+            </thead>
             {% for user in usrs %}
-            <tr>
-                <td class="id">{{user.id}}</td><td class="name">{{user.username}}</td><td class="email">{{user.pw}}</td><td class="firstname">{{user.firstname}}</td><td class="lastname">{{user.lastname}}</td><td class="email">{{user.email}}</td>
-            </tr>
+            <tbody>
+                <tr>
+                    <th scope="row">{{user.id}}</th>
+                    {% if session['username'].upper() == user.username.upper() %}
+                    <td class="table-active">{{user.username}}</td>
+                    <td>{{user.firstname}}</td>
+                    <td>{{user.lastname}}</td>
+                    <td>{{user.email}}</td>                     
+                    {% else %}                        
+                    <td>*********</td>
+                    <td>{{user.firstname}}</td> 
+                    <td>{{user.lastname}}</td> 
+                    <td>*********</td> 
+                    {% endif %}                    
+                                       
+                </tr>
+            </tbody>                
             {% endfor %}
+
+            
         </table>
-    </div>
+    
 
 </main>
 

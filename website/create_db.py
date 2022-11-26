@@ -1,10 +1,8 @@
-from views import User, Base, engine
+from views import User, Base, engine, connect
 
-from views import connect
-
-
-""" Base.metadata.create_all(engine) """
-
+""" 
+Base.metadata.create_all(engine)
+ """
 
 """ sesh = connect()
 

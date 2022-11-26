@@ -3,7 +3,25 @@
 {% block title %}Profile{% endblock %} 
 {% block head %}
     {{ super() }}
-    
+
+	<script>
+		var myModal = document.getElementById('myModal')
+		var myInput = document.getElementById('myInput')
+		
+
+		myModal.addEventListener('shown.bs.modal', function () {
+  			myInput.focus()
+		})
+
+		
+	</script>
+
+	
+
+	<script src="{{ url_for('static', filename='modalfunction.js') }}">
+
+	</script>
+
 {% endblock %}
 {% block content %}
     
@@ -11,29 +29,29 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
 
 <div class="container">
-<div class="row">
-		<div class="col-12">
+	<div class="row">
+		<div class="col-12 mt-5">
 			<!-- Page title -->
-			<div class="my-4">
+			
 				<div class="row">
-				<h3 class="col-2"> <img src="{{ url_for('static', filename='profile.png') }}" class="img-fluid" alt=""></h3>
-				<h3 class="col-3 mx-4 mt-5"> Profile For - <span style="color: orange;">{{username.upper()}}</span></h3>
-			</div>
+				<h3 class="col-md-4"> <img src="{{ url_for('static', filename='profile.png') }}" class="form-img" alt=""></h3>
+				<h3 class="col-md-6 mx-4 mt-5"> Profile For - <span style="color: orange;">{{username.upper()}}</span></h3>
+			
 				<hr>
 			</div>
 			<div class="row justify-content-center">
 				<div class="col-4">
-				  {% with messages = get_flashed_messages() %}
+				{% with messages = get_flashed_messages() %}
 					{% if messages %}
 					
-					  {% for message in messages %}
+					{% for message in messages %}
 						<p class="text-center"><span style="color: greenyellow;">{{ message }}</span></p>
-					  {% endfor %}
-					  
+					{% endfor %}
+					
 					{% endif %}
-				  {% endwith %}
+				{% endwith %}
 				</div>
-			  </div>
+			</div>
 			<!-- Form START -->
 			<form action="#" method="post">
 				<div class="row mb-5 gx-5">
@@ -44,24 +62,46 @@
 								<h4 class="mb-4 mt-0">Contact Details</h4>
 								<!-- First Name -->
 								<div class="col-md-6">
-									<label class="form-label">First Name</label>
-									<input type="text" class="form-control" placeholder={{firstname}} aria-label="First name" value="" name="fn">
+									<label class="form-label">First Name (optional)</label>
+									<input type="text" class="form-control" placeholder='{{firstname}}' aria-label="Firstname" value="" name="fn">
 								</div>
 								<!-- Last name -->
 								<div class="col-md-6">
-									<label class="form-label">Last Name</label>
-									<input type="text" class="form-control" placeholder="{{lastname}}" aria-label="Last name" value="" name="ln">
-								</div>								
-								<!-- Email -->
-								<div class="col-md-6">
-									<label for="inputEmail4" class="form-label">Email *</label>
-									<input type="email" class="form-control" id="inputEmail4" placeholder="{{email}}" value="" name="em">
+									<label class="form-label">Last Name (optional)</label>
+									<input type="text" class="form-control" placeholder='{{lastname}}' aria-label="Lastname" value="" name="ln">
 								</div>
+								<div class="col-md-6">
+									<label class="form-label">Phone Number [xxx-xxx-xxxx] (optional)</label>
+									<input type="tel" class="form-control" placeholder='{{phone}}' aria-label="Phonenumber" value="" name="ph" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+								</div>
+								<!-- Last name -->
+								<div class="col-md-6">
+									<label class="form-label">LinkedIn (optional)</label>
+									<input type="text" class="form-control" placeholder="{{linkedin}}" aria-label="Linkedin" value="" name="lk">
+								</div>								
+								
 								
 							</div> <!-- Row END -->
 						</div>
 					</div>
-
+					<div class="col-xxl-6">
+						<div class="bg-secondary-soft px-4 py-5 rounded">
+							<div class="row g-3">
+								<h4 class="my-4">Change Email</h4>
+								<!-- New email -->
+								<div class="col-md-12">
+									<label for="exampleInputEmail1" class="form-label">New Email</label>
+									<input type="email" class="form-control" id="exampleInputEmail1" placeholder="New Email" name="em1">
+								</div>
+								<!-- Confirm email -->
+								<div class="col-md-12">
+									<label for="exampleInputEMail2" class="form-label">Confirm Email</label>
+									<input type="email" class="form-control" id="exampleInputEmail2" placeholder="Confirm Email" name="em2">
+								</div>
+								
+							</div>
+						</div>
+					</div>
 					<!-- change password -->
 					<div class="col-xxl-6">
 						<div class="bg-secondary-soft px-4 py-5 rounded">
@@ -69,17 +109,17 @@
 								<h4 class="my-4">Change Password</h4>
 								<!-- Old password -->
 								<div class="col-md-6">
-									<label for="exampleInputPassword1" class="form-label">Old password *</label>
+									<label for="exampleInputPassword1" class="form-label">Old password</label>
 									<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Current Password" name="old-pw">
 								</div>
 								<!-- New password -->
 								<div class="col-md-6">
-									<label for="exampleInputPassword2" class="form-label">New password *</label>
+									<label for="exampleInputPassword2" class="form-label">New password</label>
 									<input type="password" class="form-control" id="exampleInputPassword2" placeholder="New Password" name="new-pw1">
 								</div>
 								<!-- Confirm password -->
 								<div class="col-md-12">
-									<label for="exampleInputPassword3" class="form-label">Confirm Password *</label>
+									<label for="exampleInputPassword3" class="form-label">Confirm Password</label>
 									<input type="password" class="form-control" id="exampleInputPassword3" placeholder="Confirm New Password" name="new-pw2">
 								</div>
 							</div>
@@ -88,12 +128,41 @@
 				</div> <!-- Row END -->
 				<!-- button -->
 				<div class="gap-3 d-md-flex justify-content-md-end text-center">
-					<button type="button" class="btn btn-danger btn-lg">Delete profile</button>
-					<button type="submit" class="btn btn-primary btn-lg">Update profile</button>
+					<button type="button" class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#deleteWarning">Delete profile</button>
+					<button type="submit" class="btn btn-primary btn-lg" name ="update" value="update">Update profile</button>
 				</div>
 			</form> <!-- Form END -->
+			
 		</div>
 	</div>
-	</div>
+  <!-- Modal -->
+  <form action="#" method="post">
+		<div class="modal fade" id="deleteWarning" tabindex="-1" aria-labelledby="deleteWarningLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="deleteWarningLabel"  style="color: black;">Delete Profile</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-12 mb-4">
+								<label for="deleteuser" style="color: black;">Enter your username to confirm deletion.</label>
+							</div>
+							<div class="col">
+								<input type="text" id="text-field" placeholder={{username}}>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-danger" id="delete" name="delete" value="delete">Delete Profile</button>
+							<meta id="my-data" data-user={{username}}>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
 
 {% endblock  %}
