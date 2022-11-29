@@ -108,7 +108,7 @@ ipython_config.py
 #   commonly ignored for libraries.
 #   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
 #poetry.lock
-
+create_db
 # pdm
 #   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
 #pdm.lock
@@ -178,3 +178,6 @@ cython_debug/
 [Ss]cripts
 pyvenv.cfg
 pip-selfcheck.json
+website/create_db.py
+dbcreate/create_db.py
+dbcreate/*

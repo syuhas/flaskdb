@@ -9,7 +9,9 @@
     
 
 <main class="container">
-
+    {% if  'username' in session %}
+        
+    
         <table class="table table-dark table-hover table-bordered border-primary">
             <thead>
                 <tr>
@@ -42,8 +44,9 @@
 
             
         </table>
-    
-
+    {% else %}
+    <h1 class="text-center mt-5">Please login to view the user list.</h1>
+    {% endif %}
 </main>
 
 {% endblock  %}

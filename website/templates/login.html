@@ -47,7 +47,7 @@
     {% if "username" not in session %}
     <form action="#" method="post">
 
-      <div class="row justify-content-center">
+      <!-- <div class="row justify-content-center">
         <div class="col-md-7">
           <label for="floatingInput" class="formlabel-nm">Username</label>
           <input type="text" class="form-control" id="floatingInput" placeholder="Name" name="nm">
@@ -61,7 +61,24 @@
           <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
            <a href="/forgotpw">Forgot Password?</a>
         </div>
-      </div>
+      </div> -->
+    <div class="row justify-content-center">
+      <div class="col-md-7">
+        {{ form.hidden_tag() }}
+        {{ form.username.label(class="form-label") }}
+        {{ form.username(class="form-control") }}    
+        {{ form.password.label(class="form-label") }}
+        {{ form.password(class="form-control") }}
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-md-3 mt-5">
+      {{ form.submit(class="w-100 btn btn-lg btn-primary") }}
+    </div>
+  </div>
+
+
+    
 
     </form>
     {% endif %}

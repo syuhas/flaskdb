@@ -13,11 +13,3 @@ def hash_pw(pw):
 def check_pw(hash, pw):
     return bcrypt.check_password_hash(hash, pw)
 
-""" user = 'steve'
-passw = 'funstuff'
-local_session = connect()                   ### how the dehashing works
-                                                          
-
-usr = local_session.query(User).filter_by(username=user).first()
-
-print(check_pw(usr.pw, passw)) """

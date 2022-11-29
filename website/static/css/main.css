@@ -48,6 +48,12 @@ th, td {
   font-size: clamp(6px, 1.5vw, 12px);
 }
 
+#change_pic:hover:after {
+  content: 'Click Image to Change Profile Picture';
+  color: white;
+  font-size: xx-small;
+}
+
 @media (min-width: 0px) {
   .form-img {
     max-width: 30vw;

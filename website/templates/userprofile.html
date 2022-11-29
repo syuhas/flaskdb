@@ -26,34 +26,56 @@
 {% block content %}
     
 
+	
+
+	
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
 
 <div class="container">
+{% if "username" in session %}
 	<div class="row">
 		<div class="col-12 mt-5">
 			<!-- Page title -->
+			<form method="post" action="#" enctype='multipart/form-data'>
 			
 				<div class="row">
-				<h3 class="col-md-4"> <img src="{{ url_for('static', filename='profile.png') }}" class="form-img" alt=""></h3>
-				<h3 class="col-md-6 mx-4 mt-5"> Profile For - <span style="color: orange;">{{username.upper()}}</span></h3>
-			
-				<hr>
-			</div>
-			<div class="row justify-content-center">
-				<div class="col-4">
-				{% with messages = get_flashed_messages() %}
-					{% if messages %}
+					<div class="col-md-2">
 					
-					{% for message in messages %}
-						<p class="text-center"><span style="color: greenyellow;">{{ message }}</span></p>
-					{% endfor %}
-					
+					{% if pic == 'null' %}
+													
+						<div class="btn" id="change_pic">
+							<label for="formFile" class="form-label"><img src="{{ url_for('static', filename='profile.png') }}" class="form-img" alt=""></label>
+							<input class="form-control d-none" type="file" name="file" value="file" id="formFile">
+						</div>
+
+					{% else %}
+
+						<div class="btn" id="change_pic">
+							<label for="formFile" class="form-label"><img src="{{ pic }}" class="form-img" alt=""></label>
+							<input class="form-control d-none" type="file" name="file" value="file" id="formFile">
+						</div>
+
 					{% endif %}
-				{% endwith %}
+					
+					</div>
+					<h3 class="col-md-6 mx-4 mt-5"> Profile For - <span style="color: orange;">{{username.upper()}}</span></h3>
+				<hr>
 				</div>
-			</div>
-			<!-- Form START -->
-			<form action="#" method="post">
+				<div class="row justify-content-center">
+					<div class="col-4">
+					{% with messages = get_flashed_messages() %}
+						{% if messages %}
+						
+						{% for message in messages %}
+							<p class="text-center"><span style="color: greenyellow;">{{ message }}</span></p>
+						{% endfor %}
+						
+						{% endif %}
+					{% endwith %}
+					</div>
+				</div>
+				<!-- Form START -->
 				<div class="row mb-5 gx-5">
 					<!-- Contact detail -->
 					<div class="col-xxl-8 mb-5 mb-xxl-0">
@@ -70,6 +92,7 @@
 									<label class="form-label">Last Name (optional)</label>
 									<input type="text" class="form-control" placeholder='{{lastname}}' aria-label="Lastname" value="" name="ln">
 								</div>
+								<!-- Phone Number -->
 								<div class="col-md-6">
 									<label class="form-label">Phone Number [xxx-xxx-xxxx] (optional)</label>
 									<input type="tel" class="form-control" placeholder='{{phone}}' aria-label="Phonenumber" value="" name="ph" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
@@ -163,6 +186,12 @@
 			</div>
 		</div>
 	</form>
+
+	{% else %}
+
+		<h1 class="text-center mt-5"></h1>
+
+	{% endif %}
 </div>
 
 {% endblock  %}
