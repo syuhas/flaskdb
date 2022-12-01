@@ -233,7 +233,6 @@ def s3_upload(img, bucket_name):
         Body=img,
         Key=filename,
         ContentType=img.content_type,
-        ACL='public-read-write'
     )
     return "{}{}".format(app.config['S3_LOCATION'], filename)
 
