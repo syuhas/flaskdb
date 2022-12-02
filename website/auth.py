@@ -12,8 +12,10 @@ from .forms import Login
 
 auth = Blueprint('auth', __name__)
 
+def make_permanent():
+    session.permanent = True
+    session.modified = True
 
-    
 
 
 @ auth.route('/login', methods=["POST", "GET"])
