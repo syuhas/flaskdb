@@ -73,7 +73,8 @@ def signup():
                         flash("Email Already Exists")
                         return redirect(url_for('profiles.signup'))    
             except:
-                pass
+                flash("Server Error. Please Try Again.")
+                return redirect(url_for('profiles.signup'))
             create_user(username, password, email)
             flash("Thank you for creating your account. A confirmation link has been sent to your email address. Follow the link to confirm your account and log in.")
             return redirect(url_for('mailer.send_confirm_email'))
@@ -95,27 +96,39 @@ def newuser(username, email, pw):
 
 @ profiles.route('/userprofile', methods=["POST", "GET"])
 def userprofile():
+
+    local_session = connect()
+    commit = False
     if request.method == "POST":
 
-        if request.form.get('update') =='update':        
-            local_session = connect()
+        if request.form.get('update') =='update':
+
             usr = local_session.query(User).filter_by(username=session['username']).first()            
                 
             if request.form['fn'] != '':
                 usr.firstname = request.form['fn']
+                commit = True
                 flash("First Name Updated")
-                
+
             if request.form['ln'] != '':
                 usr.lastname = request.form['ln']
+                commit = True
                 flash("Last Name Updated")
 
             if request.form['ph'] != '':
                 usr.phone = request.form['ph']
+                commit = True
                 flash("Phone Number Updated")
 
             if request.form['lk'] != '':
                 usr.linkedin = request.form['lk']
+                commit = True
                 flash("LinkedIn Profile Updated")
+            if commit == True:
+                local_session.commit()
+                local_session = connect()
+            
+            
 
             if request.form["old-pw"] != '' or request.form["new-pw1"] != '' or request.form["new-pw2"] != '':
                 if request.form["old-pw"] == '':
@@ -137,52 +150,44 @@ def userprofile():
                     else:
                         flash("Passwords do not match. Please try again.")
                         return redirect(url_for('profiles.userprofile'))
-            """ data = {}
-            img_file = request.files['file']
-            flash(img_file)
-            with open(img_file , mode='rb') as file:
-                image = file.read()
-            flash(image) """
+            
             img = request.files['file']
-            """ if img:
-                img = secure_filename(img.filename)
-                print(img.content_type)
-                flash(img.filename)
-                flash(img.mimetype)
-                print(img.stream)
-                print(img) """
             if img:
                 img.filename = secure_filename(img.filename)
                 output = s3_upload(img, app.config['S3_BUCKET'])
-                local_session = connect()
                 local_session.query(User).filter_by(username=session['username']).update({"profile_link": str(output)})
+            
+            
 
-
+            
             if request.form['em1'] != '' or request.form['em2'] != '':
                 if request.form["em1"] == '':
                     flash("Please enter your new email.")
                     return redirect(url_for('profiles.userprofile'))
                 if request.form["em2"] == '':
-                    flash("Please confirm your new email.")
+                    flash("Please enter new email again to confirm.")
                     return redirect(url_for('profiles.userprofile'))
                 else:
                     if request.form["em1"] == request.form["em2"]:
                         session['email'] = request.form['em1']
-                        local_session = connect()
                         usrs = local_session.query(User).all()
                         for usr in usrs:
+                            print(usr.email)
                             if session['email'] == usr.email:
                                 flash("Email Already Exists")
                                 session.pop('email', None)
-                                return redirect(url_for('profiles.userprofile'))
-                            else:
-                                usr = local_session.query(User).filter_by(username=session['username']).first()
-                                usr.email = session['email']
-                                usr.confirmed = False
-                                session.pop('username', None)
-                                local_session.commit()
-                                flash("Email Updated. A confirmation link has been sent to your email address. Follow the link to confirm your account and log back in.")
-                                return redirect(url_for('mailer.send_confirm_email'))
+                                return redirect(url_for('profiles.userprofile'))                          
+                        try:
+                            usr = local_session.query(User).filter_by(username=session['username']).first()
+                            usr.email = session['email']
+                            usr.confirmed = False
+                            session.pop('username', None)
+                            local_session.commit()
+                            flash("Email Updated. A confirmation link has been sent to your email address. Follow the link to confirm your account and log back in.")
+                            return redirect(url_for('mailer.send_confirm_email'))
+                        except:
+                            flash("Server Error. Please Try Again.")
+                            return redirect(url_for('profiles.userprofile'))
 
                     else:
                         flash("Emails do not match. Please try again.")
@@ -204,8 +209,11 @@ def userprofile():
             return redirect(url_for('profiles.userprofile'))
     else:
         if 'username' in session:
-            local_session = connect()
-            usr = local_session.query(User).filter_by(username=session['username']).first()
+            try:
+                local_session = connect()
+                usr = local_session.query(User).filter_by(username=session['username']).first()
+            except:
+                redirect(url_for('profiles.userprofile'))
             context = {
                 'username': usr.username,
                 'email': usr.email,
@@ -224,17 +232,24 @@ def userprofile():
 def s3_upload(img, bucket_name):
     # Uploads image to S3
     local_session = connect()
-    usr = local_session.query(User).filter_by(username=session['username']).first()
+    try:
+        usr = local_session.query(User).filter_by(username=session['username']).first()
+    except:
+        flash("Connection error. Please refresh and try again.")
+        return redirect(url_for('auth.login'))
     filename = f'{usr.username}_profile_img_{img.filename}'
     s3 = boto3.client('s3')
-
-    s3.put_object(
-        Bucket=bucket_name,
-        Body=img,
-        Key=filename,
-        ContentType=img.content_type,
-    )
-    return "{}{}".format(app.config['S3_LOCATION'], filename)
+    try:
+        s3.put_object(
+            Bucket=bucket_name,
+            Body=img,
+            Key=filename,
+            ContentType=img.content_type,
+        )
+        return "{}{}".format(app.config['S3_LOCATION'], filename)
+    except:
+        flash("There was an error. Please try again.")
+        return redirect(url_for('profiles.userprofile'))
 
 
     """ try:

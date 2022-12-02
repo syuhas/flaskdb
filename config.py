@@ -17,7 +17,6 @@ class Config(object):
     SERIALIZER_SECRET_KEY = os.getenv('SERIALIZER_SECRET_KEY')
     SERIALIZER_SALT = os.getenv('SERIALIZER_SALT')
 
-
 class Prod(Config):
     DEBUG=False
 

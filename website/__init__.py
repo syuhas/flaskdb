@@ -36,7 +36,7 @@ def create_application():
     app.config['MAIL_PASSWORD'] = os.getenv('GMAIL_PW')
 
     
-    print(app.config['MAIL_PASSWORD'])
+    print(app.config['S3_LOCATION'])
 
 
     mail.init_app(app)

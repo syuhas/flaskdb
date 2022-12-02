@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy import (VARCHAR, Boolean, Column, DateTime, ForeignKey,
                         Integer, String, create_engine, text)
 
-from flask import Blueprint, flash, redirect, url_for, current_app as app
+from flask import Blueprint, flash, redirect, url_for, current_app as app, session
 
 from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy import create_engine
@@ -27,13 +27,17 @@ except:
 
 def connect():                                          # reconnects and loads fresh data from db, returns connection as local session
     Session = sessionmaker()                            # use to make sure no stale data
+    engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'], echo=app.config['SQLALCHEMY_ECHO'])
     local_session = Session(bind=engine)
     try:
         with engine.connect() as connection:
+            connection.execute("CREATE DATABASE IF NOT EXISTS userdb")
             connection.execute("USE userdb")
     except:
-        flash('Database connection error. Please refresh and try again.')
-        return redirect(url_for('auth.login'))
+        flash('Database connection error. Please login and try again.')
+        if "username" in session:
+            session.pop['username']
+        return redirect(url_for('views.home'))
     return local_session
 
 
