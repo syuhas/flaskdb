@@ -27,6 +27,9 @@ def change_pw(new_pw, email):
 
 @ mailer.route('/send_confirm_email', methods=['GET', 'POST'])
 def send_confirm_email():
+    if "username" in session:
+        flash("Confirmation email resent. Please check your inbox and spam folder to confirm email with link.")
+        session.pop("username", None)
     email = session["email"]
     token = s.dumps(email, salt=app.config['SERIALIZER_SALT'])
     session.pop('email', None)

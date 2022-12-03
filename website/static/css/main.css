@@ -49,9 +49,15 @@ th, td {
 }
 
 #change_pic:hover:after {
-  content: 'Click Image to Change Profile Picture';
+  content: 'Click Image to Change';
   color: white;
   font-size: xx-small;
+  top: 14vh;
+  left: 4vw;
+  position:fixed;
+  background-color: #343a40;
+  opacity: 50%;
+
 }
 
 @media (min-width: 0px) {

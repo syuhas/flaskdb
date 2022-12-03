@@ -69,7 +69,7 @@ def signup():
                     if username == usr.username:
                         flash("User Already Exists")
                         return redirect(url_for('profiles.signup'))
-                    elif username == usr.email:
+                    elif email1 == usr.email:
                         flash("Email Already Exists")
                         return redirect(url_for('profiles.signup'))    
             except:
@@ -97,9 +97,11 @@ def newuser(username, email, pw):
 @ profiles.route('/userprofile', methods=["POST", "GET"])
 def userprofile():
 
-    local_session = connect()
+    
     commit = False
     if request.method == "POST":
+        
+        local_session = connect()
 
         if request.form.get('update') =='update':
 
@@ -209,8 +211,8 @@ def userprofile():
             return redirect(url_for('profiles.userprofile'))
     else:
         if 'username' in session:
+            local_session = connect()
             try:
-                local_session = connect()
                 usr = local_session.query(User).filter_by(username=session['username']).first()
             except:
                 redirect(url_for('profiles.userprofile'))
@@ -237,7 +239,7 @@ def s3_upload(img, bucket_name):
     except:
         flash("Connection error. Please refresh and try again.")
         return redirect(url_for('auth.login'))
-    filename = f'{usr.username}_profile_img_{img.filename}'
+    filename = f'{usr.username}_profile_img'
     s3 = boto3.client('s3')
     try:
         s3.put_object(

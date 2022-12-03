@@ -40,7 +40,7 @@
 			<form method="post" action="#" enctype='multipart/form-data'>
 			
 				<div class="row">
-					<div class="col-md-2">
+					<div class="col-md-3">
 					
 					{% if pic == 'null' %}
 													
@@ -48,6 +48,7 @@
 							<label for="formFile" class="form-label"><img src="{{ url_for('static', filename='profile.png') }}" class="form-img" alt=""></label>
 							<input class="form-control d-none" type="file" name="file" value="file" id="formFile">
 						</div>
+						
 
 					{% else %}
 

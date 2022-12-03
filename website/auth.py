@@ -1,4 +1,5 @@
 
+from operator import or_
 from flask import Blueprint, flash, redirect, render_template, request, session, url_for
 
 from .hash import check_pw
@@ -44,33 +45,32 @@ def user():
     if "username" in session:
         user = session["username"]
         password = session["password"]
+
         local_session = connect()
-        usr = local_session.query(User).filter_by(username=user).first()
-        usrem = local_session.query(User).filter_by(email=user).first()
-        if usr is None and usrem is None:
+        usr = local_session.query(User).filter(or_(User.username==session['username'], User.email==session['username'])).first()
+
+        if usr is None:
             flash("User not found")
             session.pop('username', None)
             session.pop('password', None)
             return redirect(url_for('auth.login'))
-        elif usr is None and usrem is not None:
-            user = usrem.username
-            hashed_check = check_pw(usrem.pw, password)
-        elif usr is not None and usrem is None:
-            user = usr.username
+        elif usr is not None:
+            session['username'] = usr.username
+            session['email'] = usr.email
             hashed_check = check_pw(usr.pw, password)
             
         if not hashed_check:
             flash("Password is incorrect")
             session.pop('username', None)
             session.pop('password', None)
+            session.pop('email', None)
             return redirect(url_for('auth.login'))
-        else:
+        elif hashed_check:
             if usr.confirmed:
-                flash("Welcome Back, " + user)
+                flash("Welcome Back " + session['username'].upper() + ".")
                 session.pop('password', None)
-                return redirect(url_for('auth.login'))
+                return redirect(url_for('profiles.userprofile'))
             elif not usr.confirmed:
-                session.pop('username', None)
                 session.pop('password', None)
                 return redirect(url_for('auth.unconfirmed'))
     else:
@@ -78,15 +78,18 @@ def user():
 
 
 
+@ auth.route('/unconfirmed')
+def unconfirmed():
+    return render_template('unconfirmed.html')
 
+    
 
 @ auth.route('/logout')                                # handler for logout
 def logout():
     flash("Logged out successfully", "messages")
     session.pop('username', None)
+    session.pop('email', None)
     return redirect(url_for('auth.login'))
 
-@ auth.route('/unconfirmed')
-def unconfirmed():
-    return render_template('unconfirmed.html')
+
 
