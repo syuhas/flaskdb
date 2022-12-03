@@ -237,7 +237,7 @@ def s3_upload(img, bucket_name):
     except:
         flash("Connection error. Please refresh and try again.")
         return redirect(url_for('auth.login'))
-    filename = f'{usr.username}_profile_img_{img.filename}'
+    filename = f'{usr.username}_profile_img'
     s3 = boto3.client('s3')
     try:
         s3.put_object(
