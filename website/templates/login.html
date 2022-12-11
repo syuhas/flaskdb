@@ -47,21 +47,7 @@
     {% if "username" not in session %}
     <form action="#" method="post">
 
-      <!-- <div class="row justify-content-center">
-        <div class="col-md-7">
-          <label for="floatingInput" class="formlabel-nm">Username</label>
-          <input type="text" class="form-control" id="floatingInput" placeholder="Name" name="nm">
-          <label for="floatingInput" class="formlabel-em">Password</label>
-          <input type="password" class="form-control" id="floatingInput" placeholder="Password" name="pw">
-        </div>
-      </div>
-
-      <div class="row justify-content-center">
-        <div class="col-md-3 mt-5">
-          <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
-           <a href="/forgotpw">Forgot Password?</a>
-        </div>
-      </div> -->
+      
     <div class="row justify-content-center">
       <div class="col-md-7">
         {{ form.hidden_tag() }}
@@ -94,4 +80,23 @@
 </main>
 
 
+
+
+
+
+<!-- <div class="row justify-content-center">
+        <div class="col-md-7">
+          <label for="floatingInput" class="formlabel-nm">Username</label>
+          <input type="text" class="form-control" id="floatingInput" placeholder="Name" name="nm">
+          <label for="floatingInput" class="formlabel-em">Password</label>
+          <input type="password" class="form-control" id="floatingInput" placeholder="Password" name="pw">
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-md-3 mt-5">
+          <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
+           <a href="/forgotpw">Forgot Password?</a>
+        </div>
+      </div> -->
 {% endblock %}

@@ -81,14 +81,7 @@ def signup():
     else:
         return render_template('signup.html')
 
-@ profiles.route('/newuser')                              # handler for new user signup
-def newuser(username, email, pw):
-    create_user(username, pw, email)
-    flash("Welcome " + username + ". Please Sign In.")
-    session.pop('username', None)
-    session.pop('password', None)
-    session.pop('email', None)
-    return redirect(url_for('auth.login'))
+
 
 
 
@@ -96,8 +89,7 @@ def newuser(username, email, pw):
 
 @ profiles.route('/userprofile', methods=["POST", "GET"])
 def userprofile():
-
-    
+    local_session = connect()
     commit = False
     if request.method == "POST":
         
@@ -216,17 +208,20 @@ def userprofile():
                 usr = local_session.query(User).filter_by(username=session['username']).first()
             except:
                 redirect(url_for('profiles.userprofile'))
-            context = {
-                'username': usr.username,
-                'email': usr.email,
-                'firstname': usr.firstname,
-                'lastname': usr.lastname,
-                'phone': usr.phone,
-                'linkedin': usr.linkedin,
-                'pic': usr.profile_link
-            }
-            print(context)
-            return render_template('userprofile.html', **context)
+            if not usr.confirmed:
+                return redirect(url_for('auth.unconfirmed'))
+            else:
+                context = {
+                    'username': usr.username,
+                    'email': usr.email,
+                    'firstname': usr.firstname,
+                    'lastname': usr.lastname,
+                    'phone': usr.phone,
+                    'linkedin': usr.linkedin,
+                    'pic': usr.profile_link
+                }
+                print(context)
+                return render_template('userprofile.html', **context)
         else:
             return redirect(url_for('auth.login'))
 
@@ -252,14 +247,6 @@ def s3_upload(img, bucket_name):
     except:
         flash("There was an error. Please try again.")
         return redirect(url_for('profiles.userprofile'))
-
-
-    """ try:
-        s3.upload_file(img, bucket_name, img.filename)
-        flash("Image Updated")
-    except Exception as e:
-        print(e)
-        return e """
     
 
 

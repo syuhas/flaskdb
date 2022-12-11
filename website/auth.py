@@ -21,11 +21,6 @@ def make_permanent():
 
 @ auth.route('/login', methods=["POST", "GET"])
 def login():
-    """ if request.method == "POST":
-        session["username"] = request.form["nm"]
-        session["password"] = request.form["pw"]
-        return redirect(url_for('auth.user'))
-    else: """
     username = None
     password = None
     form = Login()
@@ -43,16 +38,14 @@ def login():
 @ auth.route('/user')                              # handler for existing user
 def user():
     if "username" in session:
-        user = session["username"]
         password = session["password"]
-
+        session.pop['password', None]
         local_session = connect()
         usr = local_session.query(User).filter(or_(User.username==session['username'], User.email==session['username'])).first()
 
         if usr is None:
             flash("User not found")
             session.pop('username', None)
-            session.pop('password', None)
             return redirect(url_for('auth.login'))
         elif usr is not None:
             session['username'] = usr.username
@@ -62,19 +55,19 @@ def user():
         if not hashed_check:
             flash("Password is incorrect")
             session.pop('username', None)
-            session.pop('password', None)
             session.pop('email', None)
             return redirect(url_for('auth.login'))
         elif hashed_check:
             if usr.confirmed:
                 flash("Welcome Back " + session['username'].upper() + ".")
-                session.pop('password', None)
                 return redirect(url_for('profiles.userprofile'))
             elif not usr.confirmed:
-                session.pop('password', None)
+                session.pop('username', None)
                 return redirect(url_for('auth.unconfirmed'))
     else:
         return redirect(url_for('auth.login'))
+
+    
 
 
 
@@ -82,7 +75,10 @@ def user():
 def unconfirmed():
     return render_template('unconfirmed.html')
 
-    
+@auth.route('/resend')
+def resend():
+    flash("Confirmation email resent. Please check your inbox and spam folder to confirm email with link.")
+    return redirect(url_for('mailer.send_confirm_email'))
 
 @ auth.route('/logout')                                # handler for logout
 def logout():
@@ -93,3 +89,20 @@ def logout():
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+""" if request.method == "POST":
+        session["username"] = request.form["nm"]
+        session["password"] = request.form["pw"]
+        return redirect(url_for('auth.user'))
+    else: """
