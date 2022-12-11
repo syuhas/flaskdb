@@ -11,28 +11,33 @@
 
 
 
-<main class="main-home">
-    <div class="row">
-        <div class="col-3"></div>
+<div class="container">
+
+    <div class="row justify-content-center">
         <div class="col-6 mt-5">
-            <h1 class="text-center">Welcome!</h1>
+            <h1 class="text-center">Welcome to my <span style="color: #c28422; text-shadow: 2px 2px 4px black;">User Management</span> Demo Project!</h1>
         </div>
     </div>
-    <div class="row">
-        <div class="col-3"></div>
-        <div class="col-6 mt-5">
-            <h3>This is my user management demo.</h3>
-        </div>
+
+    <div class="row justify-content-center">
+      <div class="col-md-6 mt-5">
+        
+          <img class="rounded mx-auto d-block img-fluid" src="{{ url_for('static', filename='mgmt.png') }}"  alt="Access, Login">
+        
+      </div>
     </div>
+
     <div class="row">
         <div class="col-3"></div>
-        <div class="col-6 mt3">
-            <p class="mt-5">Please feel free to play around and test the system. Let me know if there are any bugs! (I'm still learning)</p>
-            <p>Thank you for visiting.</p>
+        <div class="col-6 mt-3">
+            <p class="mt-5">For a full overview of how the site works and the resources used, check out my project review <a href="https://www.digitalsteve.net/project-users">HERE</a></p>
+            <p>Thank you for visiting. I look forward to your feedback.</p>
             <p style="opacity: 50%;">~Steve</p>
         </div>
     </div>
+
     <hr>
+
     <div class="row justify-content-center">
         <div class="col-md-7">
           {% with messages = get_flashed_messages() %}
@@ -46,7 +51,8 @@
           {% endwith %}
         </div>
       </div>
-</main>
+
+  </div>
 
 
 
