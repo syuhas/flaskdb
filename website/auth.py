@@ -39,7 +39,7 @@ def login():
 def user():
     if "username" in session:
         password = session["password"]
-        session.pop['password', None]
+        session.pop('password', None)
         local_session = connect()
         usr = local_session.query(User).filter(or_(User.username==session['username'], User.email==session['username'])).first()
 
