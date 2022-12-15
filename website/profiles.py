@@ -76,7 +76,7 @@ def signup():
                 flash("Server Error. Please Try Again.")
                 return redirect(url_for('profiles.signup'))
             create_user(username, password, email)
-            flash("Thank you for creating your account. A confirmation link has been sent to your email address. Follow the link to confirm your account and log in.")
+            flash("Thank you for creating your account. A confirmation link has been sent to your email address. Follow the link to confirm your account and log in. (Note: Please check your spam folder if you do not see the link in your inbox)")
             return redirect(url_for('mailer.send_confirm_email'))
     else:
         return render_template('signup.html')

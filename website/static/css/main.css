@@ -19,8 +19,14 @@
 }
 .nav-item a {
   color: white;
+  font-size: larger;
+  text-shadow: 3px 3px 5px black;
 }
 
+span {
+  color: greenyellow;
+  text-shadow: 2px 2px 4px black;
+}
 
 .logout, .msg {color: white; padding-top: 1em; margin: auto;}
 
