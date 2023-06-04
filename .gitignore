@@ -11,6 +11,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+website/__pychache__/
+
 # C extensions
 *.so
 
